@@ -29,4 +29,17 @@ public class CheckController {
         return checkService.get("ping");
     }
 
+    @GetMapping("/thread")
+    public void thread(){
+        for(int i=0; i<100; i++){
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    System.out.println("## Thread " + Thread.currentThread().getName() + " RUN!!");
+                }
+            };
+            thread.start();
+        }
+    }
+
 }

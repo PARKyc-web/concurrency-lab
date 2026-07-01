@@ -5,15 +5,23 @@ spring:
   application:
     name: Concurrency-lab
 
-  # Redis ??
+  # Redis 설정
   data:
     redis:
       host: localhost
       port: 6379
 
-  # Persistence ??
+  # Persistence 설정
   datasource:
     url: jdbc:h2:file:./data/cclab;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_SERVER=TRUE
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
