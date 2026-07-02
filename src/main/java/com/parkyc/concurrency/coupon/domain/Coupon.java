@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CollectionId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +40,7 @@ public class Coupon {
 
     /** 쿠폰 발행 가능 시간, 쿠폰 사용가능 시간 등 좀 더 다양항 컬럼이 있어야 할 듯 */
 
+
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -48,6 +48,22 @@ public class Coupon {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public static Coupon create(Long couponId, String couponName, Integer discountRate, Long maxCouponQuantity) {
+        Coupon coupon = new Coupon();
+        coupon.couponId = couponId;
+        coupon.couponName = couponName;
+        coupon.discountRate = discountRate;
+        coupon.issuedQuantity = 0L;
+        coupon.maxCouponQuantity = maxCouponQuantity;
+
+        return coupon;
+    }
+
+    public void resetQuantity(Long maxCouponQuantity) {
+        this.issuedQuantity = 0L;
+        this.maxCouponQuantity = maxCouponQuantity;
+    }
 
     // 우선 동시성 문제를 메인으로 다루기 위해서 우선 이정도로 마무리
 }

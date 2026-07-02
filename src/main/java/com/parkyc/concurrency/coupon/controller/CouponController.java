@@ -1,24 +1,35 @@
 package com.parkyc.concurrency.coupon.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.parkyc.concurrency.coupon.service.CouponService;
+import com.parkyc.concurrency.coupon.service.result.IssueCouponResult;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
+
+@RequiredArgsConstructor
 @RequestMapping("/coupon")
 @RestController
 public class CouponController {
 
-    @PostMapping("/issue")
-    public String issueCoupon(){
+    private final CouponService couponService;
 
-        return "User, Coupon 정보를 받아서, 쿠폰을 발급한다.";
+    @PostMapping("/issue")
+    public IssueCouponResult issueCoupon(){
+
+        return couponService.issueCoupon();
     }
 
     @PostMapping("/bulk")
     public String issueCouponByBulk(){
 
         return "User 정보를 받아서, 사용자가 발급받을 수 있는 모든 쿠폰을 발급한다.";
+    }
+
+    @PostMapping("/set-quantity")
+    public String settingCouponQuantity(@RequestBody Long couponQuantity){
+        couponService.settingCouponQuantity(couponQuantity);
+
+        return "쿠폰 동시성 테스트를 위해서 갯수를 설정한다.";
     }
 
     @GetMapping("/own-coupon")
